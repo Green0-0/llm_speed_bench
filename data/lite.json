@@ -1,0 +1,22 @@
+[
+  {
+    "id": "math_01",
+    "topic": "Advanced Mathematics",
+    "prompt": "An oriented graph is a directed graph with no pair of opposite arcs. For a digraph $D$, let $fvs(D)$ be the minimum size of a vertex set whose deletion makes $D$ acyclic, and let $\\Delta(D)$ be the maximum (total) degree, i.e., for each vertex $v$, $\\deg(v) = \\deg^+(v) + \\deg^-(v)$ and $\\Delta(D) = \\max_v \\deg(v)$. Define $c^* := \\inf\\left\\{c \\in \\mathbb{R} : \\forall \\text{ oriented graphs } D \\text{ on } n \\text{ vertices with } \\Delta(D) \\le 4, \\, fvs(D) \\le c n\\right\\}$. What is the exact value of $c^*$?"
+  },
+  {
+    "id": "cw_01",
+    "topic": "Creative Writing",
+    "prompt": "Write an SCP report about a researcher who begins finding handwritten notes from their future self, warning about a containment breach that hasn't happened yet. The notes become increasingly desperate and incoherent, sometimes containing information that contradicts known reality. Include the Foundation's attempts to determine if this is an actual temporal anomaly or psychological manipulation by a contained entity, and the researcher's struggle to trust their own perception. First person (researcher's perspective with interspersed notes), past tense. Length: 1000 words."
+  },
+  {
+    "id": "sa_01",
+    "topic": "Software & Algorithms",
+    "prompt": "The sequence of n integers is called a permutation if it contains all integers from 1 to n exactly once. You are given an arbitrary sequence a1, a2, ..., an containing n integers. Each integer is not less than 1 and not greater than 5000. Determine what minimum number of elements Polycarpus needs to change to get a permutation (he should not delete or add numbers). In a single change he can modify any single sequence element (i. e. replace it with another integer).\n\nInput\nThe first line of the input data contains an integer n (1 ≤ n ≤ 5000) which represents how many numbers are in the sequence. The second line contains a sequence of integers ai (1 ≤ ai ≤ 5000, 1 ≤ i ≤ n).\n\nOutput\nPrint the only number — the minimum number of changes needed to get the permutation."
+  },
+  {
+    "id": "se_01",
+    "topic": "Science & Engineering",
+    "prompt": "If one doesn't have rs10455872 and rs3798220, do they need to test for Lp(a)?"
+  }
+]
