@@ -135,7 +135,7 @@ def run_detailed_benchmark(args):
     if args.use_spec:
         print(f"Speculative Model: {spec_model_name}")
 
-    dataset_file = "lite.json" if args.lite else "full.json"
+    dataset_file = "data/lite.json" if args.lite else "data/full.json"
     print(f"Loading dataset from: {dataset_file}")
     try:
         with open(dataset_file, "r", encoding="utf-8") as f:
