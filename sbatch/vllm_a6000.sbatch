@@ -11,4 +11,4 @@
 
 source .vllm/bin/activate
 
-python scripts/vllm_test.py -model-size 9b --awq --lite --bsz 1 --runs-per-prompt 8 --temperature 0.6 --max-tokens 2000
+python vllm_test.py -model-size 9b --awq --lite --bsz 1 --runs-per-prompt 8 --temperature 0.6 --max-tokens 2000
