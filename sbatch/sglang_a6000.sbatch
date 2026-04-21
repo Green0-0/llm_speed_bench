@@ -11,4 +11,4 @@
 
 source .sglang/bin/activate
 
-python sglang_test.py -model-size 9b --awq --lite --bsz 1 --runs-per-prompt 8 --temperature 0.6 --max-tokens 2000
+python sglang_test.py --model-size 9b --awq --lite --bsz 1 --runs-per-prompt 8 --temperature 0.6 --max-tokens 2000
