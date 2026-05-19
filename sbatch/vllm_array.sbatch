@@ -63,4 +63,4 @@ echo "Running vLLM benchmark for config: $CONFIG_ID (Task ID: $SLURM_ARRAY_TASK_
 
 source .vllm/bin/activate
 
-python vllm_test.py --config-id "$CONFIG_ID" --bsz 512 --runs-per-prompt 2 --temperature 0.6 --max-tokens 250
+python -u vllm_test.py --config-id "$CONFIG_ID" --bsz 512 --runs-per-prompt 2 --temperature 0.6 --max-tokens 250

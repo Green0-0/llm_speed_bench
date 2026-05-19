@@ -63,4 +63,4 @@ echo "Running SGLang benchmark for config: $CONFIG_ID (Task ID: $SLURM_ARRAY_TAS
 
 source .sglang/bin/activate
 
-python sglang_test.py --config-id "$CONFIG_ID" --bsz 512 --runs-per-prompt 2 --temperature 0.6 --max-tokens 250
+python -u sglang_test.py --config-id "$CONFIG_ID" --bsz 512 --runs-per-prompt 2 --temperature 0.6 --max-tokens 250
