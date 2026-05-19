@@ -162,13 +162,6 @@ MODEL_CONFIGS = {
         "spec_tokens": 16,
         "is_vision": True,
     },
-    "gemma4-e4b-mtp": {
-        "model_name": "google/gemma-4-E4B-it",
-        "spec_method": "mtp",
-        "spec_draft_model": "google/gemma-4-E4B-it-assistant",
-        "spec_tokens": 1,
-        "is_vision": True,
-    },
     "gemma4-e4b-awq-mtp": {
         "model_name": "cyankiwi/gemma-4-E4B-it-AWQ-INT4",
         "spec_method": "mtp",
@@ -205,8 +198,8 @@ MODEL_CONFIGS = {
         "spec_tokens": None,
         "is_vision": False,
     },
-    "qwen3-8b-df": {
-        "model_name": "Qwen/Qwen3-8B",
+    "qwen3-8b-awq-df": {
+        "model_name": "Qwen/Qwen3-8B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3-8B-DFlash-b16",
         "spec_tokens": 16,
@@ -233,8 +226,8 @@ MODEL_CONFIGS = {
         "spec_tokens": None,
         "is_vision": False,
     },
-    "llama3-8b-df": {
-        "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "llama3-8b-awq-df": {
+        "model_name": "casperhansen/llama-3-8b-instruct-awq",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/LLaMA3.1-8B-Instruct-DFlash-UltraChat",
         "spec_tokens": 16,

@@ -8,7 +8,14 @@
 #SBATCH --cpus-per-task=6
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:a5000:1
-#SBATCH --array=0-37
+#SBATCH --array=0-36
+
+export CUDA_HOME=/usr/local/cuda-13.0/
+export PATH=$CUDA_HOME/bin:$PATH
+export CPATH=$CUDA_HOME/include:$CPATH
+export CPLUS_INCLUDE_PATH=$CUDA_HOME/include:$CPLUS_INCLUDE_PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+source "$HOME/.cargo/env"
 
 CONFIGS=(
     "qwen35-9b"
@@ -32,17 +39,16 @@ CONFIGS=(
     "gemma4-26b-awq-df"
     "gemma4-26b-a4b-awq-df"
     "gemma4-31b-awq-df"
-    "gemma4-e4b-mtp"
     "gemma4-e4b-awq-mtp"
     "gemma4-26b-awq-mtp"
     "gemma4-26b-a4b-awq-mtp"
     "gemma4-31b-awq-mtp"
     "qwen3-8b"
-    "qwen3-8b-df"
+    "qwen3-8b-awq-df"
     "qwen3-8b-awq"
     "qwen25-7b-awq"
     "llama3-8b"
-    "llama3-8b-df"
+    "llama3-8b-awq-df"
     "llama3-8b-awq"
     "granite-8b"
     "granite-8b-awq"
