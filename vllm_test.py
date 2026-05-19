@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -10,22 +11,306 @@ import requests
 import torch
 from tqdm import tqdm
 
-def launch_vllm_server(model_name, spec_model_name, tp_size, use_spec, port):
+MODEL_CONFIGS = {
+    # Qwen 3.5
+    "qwen35-9b": {
+        "model_name": "Qwen/Qwen3.5-9B",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "qwen35-9b-awq": {
+        "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "qwen35-27b-awq": {
+        "model_name": "QuantTrio/Qwen3.5-27B-AWQ",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "qwen35-35b-awq": {
+        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "qwen35-35b-moe-awq": {
+        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "qwen35-9b-awq-df": {
+        "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/Qwen3.5-9B-DFlash",
+        "spec_tokens": 16,
+        "is_vision": True,
+    },
+    "qwen35-27b-awq-df": {
+        "model_name": "QuantTrio/Qwen3.5-27B-AWQ",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/Qwen3.5-27B-DFlash",
+        "spec_tokens": 16,
+        "is_vision": True,
+    },
+    "qwen35-35b-awq-df": {
+        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/Qwen3.5-35B-A3B-DFlash",
+        "spec_tokens": 16,
+        "is_vision": True,
+    },
+    "qwen35-35b-moe-awq-df": {
+        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/Qwen3.5-35B-A3B-DFlash",
+        "spec_tokens": 16,
+        "is_vision": True,
+    },
+    "qwen35-9b-awq-mtp": {
+        "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
+        "spec_method": "mtp",
+        "spec_draft_model": None,
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    "qwen35-27b-awq-mtp": {
+        "model_name": "QuantTrio/Qwen3.5-27B-AWQ",
+        "spec_method": "mtp",
+        "spec_draft_model": None,
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    "qwen35-35b-awq-mtp": {
+        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
+        "spec_method": "mtp",
+        "spec_draft_model": None,
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    "qwen35-35b-moe-awq-mtp": {
+        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
+        "spec_method": "mtp",
+        "spec_draft_model": None,
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    # Gemma 4
+    "gemma4-e4b": {
+        "model_name": "google/gemma-4-E4B-it",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "gemma4-e4b-awq": {
+        "model_name": "cyankiwi/gemma-4-E4B-it-AWQ-INT4",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "gemma4-26b-awq": {
+        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "gemma4-26b-a4b-awq": {
+        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "gemma4-31b-awq": {
+        "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": True,
+    },
+    "gemma4-26b-awq-df": {
+        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/gemma-4-26B-A4B-it-DFlash",
+        "spec_tokens": 16,
+        "is_vision": True,
+    },
+    "gemma4-26b-a4b-awq-df": {
+        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/gemma-4-26B-A4B-it-DFlash",
+        "spec_tokens": 16,
+        "is_vision": True,
+    },
+    "gemma4-31b-awq-df": {
+        "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/gemma-4-31B-it-DFlash",
+        "spec_tokens": 16,
+        "is_vision": True,
+    },
+    "gemma4-e4b-mtp": {
+        "model_name": "google/gemma-4-E4B-it",
+        "spec_method": "mtp",
+        "spec_draft_model": "google/gemma-4-E4B-it-assistant",
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    "gemma4-e4b-awq-mtp": {
+        "model_name": "cyankiwi/gemma-4-E4B-it-AWQ-INT4",
+        "spec_method": "mtp",
+        "spec_draft_model": "google/gemma-4-E4B-it-assistant",
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    "gemma4-26b-awq-mtp": {
+        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
+        "spec_method": "mtp",
+        "spec_draft_model": "google/gemma-4-26B-A4B-it-assistant",
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    "gemma4-26b-a4b-awq-mtp": {
+        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
+        "spec_method": "mtp",
+        "spec_draft_model": "google/gemma-4-26B-A4B-it-assistant",
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    "gemma4-31b-awq-mtp": {
+        "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
+        "spec_method": "mtp",
+        "spec_draft_model": "google/gemma-4-31B-it-assistant",
+        "spec_tokens": 1,
+        "is_vision": True,
+    },
+    # Other Models
+    "qwen3-8b": {
+        "model_name": "Qwen/Qwen3-8B",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "qwen3-8b-df": {
+        "model_name": "Qwen/Qwen3-8B",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/Qwen3-8B-DFlash-b16",
+        "spec_tokens": 16,
+        "is_vision": False,
+    },
+    "qwen3-8b-awq": {
+        "model_name": "Qwen/Qwen3-8B-AWQ",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "qwen25-7b-awq": {
+        "model_name": "Qwen/Qwen2.5-7B-Instruct-AWQ",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "llama3-8b": {
+        "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "llama3-8b-df": {
+        "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/LLaMA3.1-8B-Instruct-DFlash-UltraChat",
+        "spec_tokens": 16,
+        "is_vision": False,
+    },
+    "llama3-8b-awq": {
+        "model_name": "casperhansen/llama-3-8b-instruct-awq",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "granite-8b": {
+        "model_name": "ibm-granite/granite-4.1-8b",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "granite-8b-awq": {
+        "model_name": "cyankiwi/granite-4.1-8b-AWQ-INT4",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "granite-30b-awq": {
+        "model_name": "cyankiwi/granite-4.1-30b-AWQ-INT4",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "gpt-oss-20b": {
+        "model_name": "openai/gpt-oss-20b",
+        "spec_method": None,
+        "spec_draft_model": None,
+        "spec_tokens": None,
+        "is_vision": False,
+    },
+    "gpt-oss-20b-df": {
+        "model_name": "openai/gpt-oss-20b",
+        "spec_method": "dflash",
+        "spec_draft_model": "z-lab/gpt-oss-20b-DFlash",
+        "spec_tokens": 16,
+        "is_vision": False,
+    },
+}
+
+def launch_vllm_server(model_name, spec_method, spec_draft_model, spec_tokens, is_vision, tp_size, port):
     cmd = [
         "vllm", "serve", model_name,
         "--port", str(port),
         "--tensor-parallel-size", str(tp_size),
-        "--gpu-memory-utilization", "0.95",
-        "--max-model-len", "4000",
-        "--max-num-batched-tokens", "2000",
+        "--gpu-memory-utilization", "0.85",
+        "--max-model-len", "4096",
+        "--max-num-batched-tokens", "1024",
+        "--disable-uvicorn-access-log",
     ]
 
-    if use_spec:
+    if is_vision:
+        cmd += ["--language-model-only"]
+
+    if spec_method == "dflash":
         spec_cfg = {
             "method": "dflash",
-            "model": spec_model_name,
-            "num_speculative_tokens": 16,
+            "model": spec_draft_model,
+            "num_speculative_tokens": spec_tokens,
         }
+        cmd += ["--speculative-config", json.dumps(spec_cfg)]
+    elif spec_method == "mtp":
+        spec_cfg = {
+            "method": "mtp",
+            "num_speculative_tokens": spec_tokens,  # this will be 1
+        }
+        if spec_draft_model:
+            spec_cfg["model"] = spec_draft_model
         cmd += ["--speculative-config", json.dumps(spec_cfg)]
 
     print("\nLaunching vLLM server...")
@@ -83,38 +368,31 @@ def generate_vllm(port, model_name, prompt, temperature, max_tokens, verbose=Fal
 
 
 def run_detailed_benchmark(args):
-    model_registry = {
-        "9b": {
-            "base": "Qwen/Qwen3.5-9B",
-            "awq": "QuantTrio/Qwen3.5-9B-AWQ",
-            "spec": "z-lab/Qwen3.5-9B-DFlash",
-        },
-        "27b": {
-            "base": "Qwen/Qwen3.5-27B",
-            "awq": "QuantTrio/Qwen3.5-27B-AWQ",
-            "spec": "z-lab/Qwen3.5-27B-DFlash",
-        },
-        "35b3": {
-            "base": "Qwen/Qwen3.5-35B-A3B",
-            "awq": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
-            "spec": "z-lab/Qwen3.5-35B-A3B-DFlash",
-        },
-    }
-
-    if args.awq:
-        model_name = model_registry[args.model_size]["awq"]
-    else:
-        model_name = model_registry[args.model_size]["base"]
-        
-    spec_model_name = model_registry[args.model_size]["spec"]
+    config = MODEL_CONFIGS[args.config_id]
+    model_name = config["model_name"]
+    spec_method = config["spec_method"]
+    spec_draft_model = config["spec_draft_model"]
+    spec_tokens = config["spec_tokens"]
+    is_vision = config["is_vision"]
 
     num_gpus = torch.cuda.device_count()
     if num_gpus == 0:
         raise RuntimeError("No GPUs detected!")
 
-    print(f"Target Model: {model_name} (AWQ: {args.awq})")
-    if args.use_spec:
-        print(f"Speculative Model: {spec_model_name}")
+    print("=" * 80)
+    print("CONFIGURATION DETAILS:")
+    print(f"  Config ID:        {args.config_id}")
+    print(f"  Model Name:       {model_name}")
+    print(f"  Spec Method:      {spec_method or 'None'}")
+    print(f"  Spec Draft Model: {spec_draft_model or 'None'}")
+    print(f"  Spec Tokens:      {spec_tokens or 'None'}")
+    print(f"  Is Vision Model:  {is_vision}")
+    print(f"  Concurrent BSZ:   {args.bsz}")
+    print(f"  Runs per Prompt:  {args.runs_per_prompt}")
+    print(f"  Max Tokens:       {args.max_tokens}")
+    print(f"  Temperature:      {args.temperature}")
+    print(f"  GPU Count (TP):   {num_gpus}")
+    print("=" * 80)
 
     dataset_file = "data/lite.json" if args.lite else "data/full.json"
     print(f"Loading dataset from: {dataset_file}")
@@ -126,14 +404,19 @@ def run_detailed_benchmark(args):
         print(f"Error: {dataset_file} not found. Ensure the dataset exists.")
         sys.exit(1)
 
+    run_id = f"run_{time.strftime('%Y%m%d_%H%M%S')}"
+
     server_proc = launch_vllm_server(
         model_name=model_name,
-        spec_model_name=spec_model_name,
+        spec_method=spec_method,
+        spec_draft_model=spec_draft_model,
+        spec_tokens=spec_tokens,
+        is_vision=is_vision,
         tp_size=num_gpus,
-        use_spec=args.use_spec,
         port=args.port,
     )
 
+    list_of_prompt_results = []
     try:
         print("Warmup...")
         for p in prompts[:1]:
@@ -143,11 +426,15 @@ def run_detailed_benchmark(args):
         print(
             f"Benchmark Running... (BSZ={args.bsz}, TEMP={args.temperature}, "
             f"TOKENS={args.max_tokens}, RUNS={args.runs_per_prompt}, "
-            f"MODEL={args.model_size}, TP={num_gpus})"
+            f"CONFIG_ID={args.config_id}, MODEL={model_name}, TP={num_gpus})"
         )
         print("=" * 80)
 
-        for i, prompt in tqdm(enumerate(prompts, 1), total=len(prompts)):
+        for i, item in tqdm(enumerate(dataset, 1), total=len(dataset)):
+            prompt = item["prompt"]
+            topic = item.get("topic", "Unknown")
+            prompt_id = item.get("id", f"prompt_{i}")
+
             latencies = []
             mean_throughputs = []
             aggregate_throughputs = []
@@ -210,7 +497,58 @@ def run_detailed_benchmark(args):
             print(f"  Mean Decode Throughput:          {avg_mean_throughput:.2f} t/s ± {mean_throughput_std:.2f}")
             print(f"  Aggregate Decode Throughput:     {avg_aggregate_throughput:.2f} t/s ± {aggregate_throughput_std:.2f}")
 
+            list_of_prompt_results.append({
+                "prompt_id": prompt_id,
+                "topic": topic,
+                "prompt": prompt,
+                "latencies": latencies,
+                "mean_throughputs": mean_throughputs,
+                "aggregate_throughputs": aggregate_throughputs,
+                "token_counts": token_counts,
+                "avg_latency": avg_latency,
+                "latency_std": latency_std,
+                "avg_mean_throughput": avg_mean_throughput,
+                "mean_throughput_std": mean_throughput_std,
+                "avg_aggregate_throughput": avg_aggregate_throughput,
+                "aggregate_throughput_std": aggregate_throughput_std,
+                "avg_tokens": avg_tokens,
+            })
+
+    except KeyboardInterrupt:
+        print("\nBenchmark interrupted by user. Saving partial results...")
     finally:
+        if list_of_prompt_results:
+            try:
+                gpu_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() and torch.cuda.device_count() > 0 else "Unknown GPU"
+            except Exception:
+                gpu_name = "Unknown GPU"
+
+            results_data = {
+                "run_id": run_id,
+                "engine": "vllm",
+                "config_id": args.config_id,
+                "model_name": model_name,
+                "spec_method": spec_method,
+                "spec_draft_model": spec_draft_model,
+                "spec_tokens": spec_tokens,
+                "is_vision": is_vision,
+                "tp_size": num_gpus,
+                "gpu_name": gpu_name,
+                "bsz": args.bsz,
+                "runs_per_prompt": args.runs_per_prompt,
+                "max_tokens": args.max_tokens,
+                "temperature": args.temperature,
+                "dataset_file": dataset_file,
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "results": list_of_prompt_results
+            }
+
+            os.makedirs("results", exist_ok=True)
+            filename = f"results/vllm_{args.config_id}_{run_id}.json"
+            with open(filename, "w", encoding="utf-8") as f:
+                json.dump(results_data, f, indent=2)
+            print(f"Results saved to {filename}")
+
         print("\nShutting down vLLM server...")
         server_proc.terminate()
         try:
@@ -225,9 +563,7 @@ if __name__ == "__main__":
         description="Run detailed vLLM OpenAI-server benchmarks."
     )
 
-    parser.add_argument("--model-size", type=str, required=True, choices=["9b", "27b", "35b3"])
-    parser.add_argument("--awq", action="store_true", help="Use the AWQ version of the selected model")
-    parser.add_argument("--use-spec", action="store_true", help="Enable speculative decoding")
+    parser.add_argument("--config-id", type=str, required=True, choices=list(MODEL_CONFIGS.keys()), help="Model configuration ID to run")
     parser.add_argument("--lite", action="store_true", help="Use lite.json instead of full.json dataset")
     parser.add_argument("--bsz", type=int, default=1, help="Concurrent batch size sent to the server per run")
     parser.add_argument("--runs-per-prompt", type=int, default=8, help="Number of times to run the full batch size for each prompt")
