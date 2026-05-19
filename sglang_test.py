@@ -19,91 +19,78 @@ MODEL_CONFIGS = {
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "qwen35-9b-awq": {
         "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "qwen35-27b-awq": {
         "model_name": "QuantTrio/Qwen3.5-27B-AWQ",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "qwen35-35b-awq": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "qwen35-35b-moe-awq": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "qwen35-9b-awq-df": {
         "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3.5-9B-DFlash",
         "spec_tokens": 16,
-        "is_vision": True,
     },
     "qwen35-27b-awq-df": {
         "model_name": "QuantTrio/Qwen3.5-27B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3.5-27B-DFlash",
         "spec_tokens": 16,
-        "is_vision": True,
     },
     "qwen35-35b-awq-df": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3.5-35B-A3B-DFlash",
         "spec_tokens": 16,
-        "is_vision": True,
     },
     "qwen35-35b-moe-awq-df": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3.5-35B-A3B-DFlash",
         "spec_tokens": 16,
-        "is_vision": True,
     },
     "qwen35-9b-awq-mtp": {
         "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
         "spec_method": "mtp",
         "spec_draft_model": None,
         "spec_tokens": 1,
-        "is_vision": True,
     },
     "qwen35-27b-awq-mtp": {
         "model_name": "QuantTrio/Qwen3.5-27B-AWQ",
         "spec_method": "mtp",
         "spec_draft_model": None,
         "spec_tokens": 1,
-        "is_vision": True,
     },
     "qwen35-35b-awq-mtp": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": "mtp",
         "spec_draft_model": None,
         "spec_tokens": 1,
-        "is_vision": True,
     },
     "qwen35-35b-moe-awq-mtp": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": "mtp",
         "spec_draft_model": None,
         "spec_tokens": 1,
-        "is_vision": True,
     },
     # Gemma 4
     "gemma4-e4b": {
@@ -111,84 +98,72 @@ MODEL_CONFIGS = {
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "gemma4-e4b-awq": {
         "model_name": "cyankiwi/gemma-4-E4B-it-AWQ-INT4",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "gemma4-26b-awq": {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "gemma4-26b-a4b-awq": {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "gemma4-31b-awq": {
         "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": True,
     },
     "gemma4-26b-awq-df": {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/gemma-4-26B-A4B-it-DFlash",
         "spec_tokens": 16,
-        "is_vision": True,
     },
     "gemma4-26b-a4b-awq-df": {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/gemma-4-26B-A4B-it-DFlash",
         "spec_tokens": 16,
-        "is_vision": True,
     },
     "gemma4-31b-awq-df": {
         "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/gemma-4-31B-it-DFlash",
         "spec_tokens": 16,
-        "is_vision": True,
     },
     "gemma4-e4b-awq-mtp": {
         "model_name": "cyankiwi/gemma-4-E4B-it-AWQ-INT4",
         "spec_method": "mtp",
         "spec_draft_model": "google/gemma-4-E4B-it-assistant",
         "spec_tokens": 1,
-        "is_vision": True,
     },
     "gemma4-26b-awq-mtp": {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": "mtp",
         "spec_draft_model": "google/gemma-4-26B-A4B-it-assistant",
         "spec_tokens": 1,
-        "is_vision": True,
     },
     "gemma4-26b-a4b-awq-mtp": {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": "mtp",
         "spec_draft_model": "google/gemma-4-26B-A4B-it-assistant",
         "spec_tokens": 1,
-        "is_vision": True,
     },
     "gemma4-31b-awq-mtp": {
         "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
         "spec_method": "mtp",
         "spec_draft_model": "google/gemma-4-31B-it-assistant",
         "spec_tokens": 1,
-        "is_vision": True,
     },
     # Other Models
     "qwen3-8b": {
@@ -196,84 +171,72 @@ MODEL_CONFIGS = {
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "qwen3-8b-awq-df": {
         "model_name": "Qwen/Qwen3-8B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3-8B-DFlash-b16",
         "spec_tokens": 16,
-        "is_vision": False,
     },
     "qwen3-8b-awq": {
         "model_name": "Qwen/Qwen3-8B-AWQ",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "qwen25-7b-awq": {
         "model_name": "Qwen/Qwen2.5-7B-Instruct-AWQ",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "llama3-8b": {
         "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "llama3-8b-awq-df": {
         "model_name": "casperhansen/llama-3-8b-instruct-awq",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/LLaMA3.1-8B-Instruct-DFlash-UltraChat",
         "spec_tokens": 16,
-        "is_vision": False,
     },
     "llama3-8b-awq": {
         "model_name": "casperhansen/llama-3-8b-instruct-awq",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "granite-8b": {
         "model_name": "ibm-granite/granite-4.1-8b",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "granite-8b-awq": {
         "model_name": "cyankiwi/granite-4.1-8b-AWQ-INT4",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "granite-30b-awq": {
         "model_name": "cyankiwi/granite-4.1-30b-AWQ-INT4",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "gpt-oss-20b": {
         "model_name": "openai/gpt-oss-20b",
         "spec_method": None,
         "spec_draft_model": None,
         "spec_tokens": None,
-        "is_vision": False,
     },
     "gpt-oss-20b-df": {
         "model_name": "openai/gpt-oss-20b",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/gpt-oss-20b-DFlash",
         "spec_tokens": 16,
-        "is_vision": False,
     },
 }
 
@@ -283,20 +246,21 @@ def stream_logs(pipe):
         sys.stdout.write("[SGLANG] " + line)
     pipe.close()
 
-def launch_sglang_server(model_name, spec_method, spec_draft_model, spec_tokens, is_vision, tp_size, port):
+def launch_sglang_server(model_name, spec_method, spec_draft_model, spec_tokens, tp_size, port):
     cmd = [
         "sglang", "serve",
         "--model-path", model_name,
         "--port", str(port),
         "--tp-size", str(tp_size),
         "--dtype", "bfloat16",
-        "--mem-fraction-static", "0.85",
+        "--mem-fraction-static", "0.7",
         "--context-length", "4096",
         "--log-level", "error",
     ]
 
-    if is_vision:
-        cmd += ["--language-only"]
+    if spec_method and "qwen3.5" in model_name.lower():
+        os.environ["SGLANG_ENABLE_SPEC_V2"] = "1"
+        cmd += ["--mamba-scheduler-strategy", "extra_buffer"]
 
     if spec_method == "dflash":
         cmd += [
@@ -382,7 +346,6 @@ def run_detailed_benchmark(args):
     spec_method = config["spec_method"]
     spec_draft_model = config["spec_draft_model"]
     spec_tokens = config["spec_tokens"]
-    is_vision = config["is_vision"]
 
     num_gpus = torch.cuda.device_count()
     if num_gpus == 0:
@@ -395,7 +358,6 @@ def run_detailed_benchmark(args):
     print(f"  Spec Method:      {spec_method or 'None'}")
     print(f"  Spec Draft Model: {spec_draft_model or 'None'}")
     print(f"  Spec Tokens:      {spec_tokens or 'None'}")
-    print(f"  Is Vision Model:  {is_vision}")
     print(f"  Concurrent BSZ:   {args.bsz}")
     print(f"  Runs per Prompt:  {args.runs_per_prompt}")
     print(f"  Max Tokens:       {args.max_tokens}")
@@ -420,7 +382,6 @@ def run_detailed_benchmark(args):
         spec_method=spec_method,
         spec_draft_model=spec_draft_model,
         spec_tokens=spec_tokens,
-        is_vision=is_vision,
         tp_size=num_gpus,
         port=args.port,
     )
@@ -538,7 +499,6 @@ def run_detailed_benchmark(args):
                 "spec_method": spec_method,
                 "spec_draft_model": spec_draft_model,
                 "spec_tokens": spec_tokens,
-                "is_vision": is_vision,
                 "tp_size": num_gpus,
                 "gpu_name": gpu_name,
                 "bsz": args.bsz,

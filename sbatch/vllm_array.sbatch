@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=6
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:a5000:1
-#SBATCH --array=0-36
+#SBATCH --array=0-32
 
 export CUDA_HOME=/usr/local/cuda-13.0/
 export PATH=$CUDA_HOME/bin:$PATH
@@ -39,10 +39,6 @@ CONFIGS=(
     "gemma4-26b-awq-df"
     "gemma4-26b-a4b-awq-df"
     "gemma4-31b-awq-df"
-    "gemma4-e4b-awq-mtp"
-    "gemma4-26b-awq-mtp"
-    "gemma4-26b-a4b-awq-mtp"
-    "gemma4-31b-awq-mtp"
     "qwen3-8b"
     "qwen3-8b-awq-df"
     "qwen3-8b-awq"
@@ -59,8 +55,12 @@ CONFIGS=(
 
 CONFIG_ID=${CONFIGS[$SLURM_ARRAY_TASK_ID]}
 
-echo "Running vLLM benchmark for config: $CONFIG_ID (Task ID: $SLURM_ARRAY_TASK_ID)"
+# Unique ports based on array task ID to avoid conflicts
+PORT=$((8000 + SLURM_ARRAY_TASK_ID))
+export MASTER_PORT=$((29600 + SLURM_ARRAY_TASK_ID))
+
+echo "Running vLLM benchmark for config: $CONFIG_ID (Task ID: $SLURM_ARRAY_TASK_ID) on port $PORT"
 
 source .vllm/bin/activate
 
-python -u vllm_test.py --config-id "$CONFIG_ID" --bsz 512 --runs-per-prompt 2 --temperature 0.6 --max-tokens 250
+python -u vllm_test.py --config-id "$CONFIG_ID" --bsz 512 --runs-per-prompt 2 --temperature 0.6 --max-tokens 250 --port "$PORT"
