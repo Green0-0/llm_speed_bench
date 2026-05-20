@@ -37,35 +37,23 @@ MODEL_CONFIGS = {
         "spec_draft_model": None,
         "spec_tokens": None,
     },
-    "qwen35-35b-moe-awq": {
-        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
-        "spec_method": None,
-        "spec_draft_model": None,
-        "spec_tokens": None,
-    },
     "qwen35-9b-awq-df": {
         "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3.5-9B-DFlash",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
     "qwen35-27b-awq-df": {
         "model_name": "QuantTrio/Qwen3.5-27B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3.5-27B-DFlash",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
     "qwen35-35b-awq-df": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3.5-35B-A3B-DFlash",
-        "spec_tokens": 16,
-    },
-    "qwen35-35b-moe-awq-df": {
-        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
-        "spec_method": "dflash",
-        "spec_draft_model": "z-lab/Qwen3.5-35B-A3B-DFlash",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
     "qwen35-9b-awq-mtp": {
         "model_name": "QuantTrio/Qwen3.5-9B-AWQ",
@@ -80,12 +68,6 @@ MODEL_CONFIGS = {
         "spec_tokens": 1,
     },
     "qwen35-35b-awq-mtp": {
-        "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
-        "spec_method": "mtp",
-        "spec_draft_model": None,
-        "spec_tokens": 1,
-    },
-    "qwen35-35b-moe-awq-mtp": {
         "model_name": "QuantTrio/Qwen3.5-35B-A3B-AWQ",
         "spec_method": "mtp",
         "spec_draft_model": None,
@@ -110,12 +92,6 @@ MODEL_CONFIGS = {
         "spec_draft_model": None,
         "spec_tokens": None,
     },
-    "gemma4-26b-a4b-awq": {
-        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
-        "spec_method": None,
-        "spec_draft_model": None,
-        "spec_tokens": None,
-    },
     "gemma4-31b-awq": {
         "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
         "spec_method": None,
@@ -126,19 +102,13 @@ MODEL_CONFIGS = {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/gemma-4-26B-A4B-it-DFlash",
-        "spec_tokens": 16,
-    },
-    "gemma4-26b-a4b-awq-df": {
-        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
-        "spec_method": "dflash",
-        "spec_draft_model": "z-lab/gemma-4-26B-A4B-it-DFlash",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
     "gemma4-31b-awq-df": {
         "model_name": "cyankiwi/gemma-4-31B-it-AWQ-4bit",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/gemma-4-31B-it-DFlash",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
     "gemma4-e4b-awq-mtp": {
         "model_name": "cyankiwi/gemma-4-E4B-it-AWQ-INT4",
@@ -147,12 +117,6 @@ MODEL_CONFIGS = {
         "spec_tokens": 1,
     },
     "gemma4-26b-awq-mtp": {
-        "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
-        "spec_method": "mtp",
-        "spec_draft_model": "google/gemma-4-26B-A4B-it-assistant",
-        "spec_tokens": 1,
-    },
-    "gemma4-26b-a4b-awq-mtp": {
         "model_name": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "spec_method": "mtp",
         "spec_draft_model": "google/gemma-4-26B-A4B-it-assistant",
@@ -175,7 +139,7 @@ MODEL_CONFIGS = {
         "model_name": "Qwen/Qwen3-8B-AWQ",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/Qwen3-8B-DFlash-b16",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
     "qwen3-8b-awq": {
         "model_name": "Qwen/Qwen3-8B-AWQ",
@@ -199,7 +163,7 @@ MODEL_CONFIGS = {
         "model_name": "casperhansen/llama-3-8b-instruct-awq",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/LLaMA3.1-8B-Instruct-DFlash-UltraChat",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
     "llama3-8b-awq": {
         "model_name": "casperhansen/llama-3-8b-instruct-awq",
@@ -235,18 +199,23 @@ MODEL_CONFIGS = {
         "model_name": "openai/gpt-oss-20b",
         "spec_method": "dflash",
         "spec_draft_model": "z-lab/gpt-oss-20b-DFlash",
-        "spec_tokens": 16,
+        "spec_tokens": 2,
     },
 }
 
 def launch_vllm_server(model_name, spec_method, spec_draft_model, spec_tokens, tp_size, port):
+    if model_name == "Qwen/Qwen3.5-9B":
+        mem_util = 0.75
+    else:
+        mem_util = 0.9
     cmd = [
         "vllm", "serve", model_name,
         "--port", str(port),
         "--tensor-parallel-size", str(tp_size),
-        "--gpu-memory-utilization", "0.7",
-        "--max-model-len", "4096",
-        "--max-num-batched-tokens", "1024",
+        "--gpu-memory-utilization", str(mem_util),
+        "--max-model-len", "2048",
+        "--max-num-seqs", "256",
+        "--max-num-batched-tokens", "4096",
         "--disable-uvicorn-access-log",
     ]
 

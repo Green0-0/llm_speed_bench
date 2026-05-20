@@ -153,7 +153,7 @@ def generate_plots(gpu_name, gpu_safe_name, aggregated_configs, sorted_configs, 
         
         for rect in rects:
             height = rect.get_height()
-            ax.annotate(f'{height:.2fx}',
+            ax.annotate(f'{height:.2f}x',
                         xy=(rect.get_x() + rect.get_width() / 2, height),
                         xytext=(0, 3) if height >= 1.0 else (0, -12),
                         textcoords="offset points",
@@ -197,7 +197,7 @@ def generate_plots(gpu_name, gpu_safe_name, aggregated_configs, sorted_configs, 
                 for rect in rects:
                     height = rect.get_height()
                     if height > 0:
-                        ax.annotate(f'{height:.2fx}',
+                        ax.annotate(f'{height:.2f}x',
                                     xy=(rect.get_x() + rect.get_width() / 2, height),
                                     xytext=(0, 3),
                                     textcoords="offset points",
@@ -233,7 +233,7 @@ def generate_plots(gpu_name, gpu_safe_name, aggregated_configs, sorted_configs, 
             
             for rect in rects:
                 height = rect.get_height()
-                ax.annotate(f'{height:.2fx}',
+                ax.annotate(f'{height:.2f}x',
                             xy=(rect.get_x() + rect.get_width() / 2, height),
                             xytext=(0, 3),
                             textcoords="offset points",
@@ -486,7 +486,7 @@ def main():
                     config_id,
                     f"{sglang_tp:.2f}",
                     f"{vllm_tp:.2f}",
-                    f"**{speedup:.2fx}**"
+                    f"**{speedup:.2f}x**"
                 ])
             report_md += make_markdown_table(engine_headers, engine_rows) + "\n"
 
@@ -512,7 +512,7 @@ def main():
                                 method.upper(),
                                 f"{base_tp:.2f}",
                                 f"{spec_tp:.2f}",
-                                f"**{speedup:.2fx}**"
+                                f"**{speedup:.2f}x**"
                             ])
             if spec_rows:
                 report_md += make_markdown_table(spec_headers, spec_rows) + "\n"
@@ -536,7 +536,7 @@ def main():
                         base_id,
                         f"{bf16_tp:.2f}",
                         f"{awq_tp:.2f}",
-                        f"**{speedup:.2fx}**"
+                        f"**{speedup:.2f}x**"
                     ])
             if quant_rows:
                 report_md += make_markdown_table(quant_headers, quant_rows) + "\n"
